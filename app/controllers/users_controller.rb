@@ -1,17 +1,18 @@
 class UsersController < ApplicationController
-  # include UserSerializer
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
   def index
     @users = User.all
 
-    render json: @users.to_json(only: [:email, :name], methods: :odd_name)
+    # render json: @users.to_json(only: [:email, :name], methods: :odd_name), status: :created, location: @user
+    render json: UserSerializer.new(@user).serializable_hash, status: :ok, location: @user
   end
 
   # GET /users/1
   def show
-    render json: @user.to_json(only: [:email, :name], methods: :odd_name)
+    # render json: @user.to_json(only: [:email, :name], methods: :odd_name)
+    render json: UserSerializer.new(@user).serializable_hash, status: :ok, location: @user
   end
 
   # POST /users
@@ -20,8 +21,8 @@ class UsersController < ApplicationController
 
     if @user.save
       # render json: @user, status: :created, location: @user
-      render json: @user.to_json(only: [:email, :name], methods: :odd_name), status: :created, location: @user
-      # render json: UserSerializer(@user).serializable_hash
+      # render json: @user.to_json(only: [:email, :name], methods: :odd_name), status: :created, location: @user
+      render json: UserSerializer(@user).serializable_hash, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -30,7 +31,8 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      render json: @user.to_json(only: [:email, :name], methods: :odd_name)
+      # render json: @user.to_json(only: [:email, :name], methods: :odd_name)
+      render json: UserSerializer(@user).serializable_hash, status: :ok, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
