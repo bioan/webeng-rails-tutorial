@@ -6,12 +6,12 @@ class UsersController < ApplicationController
   def index
     @users = User.all
 
-    render json: @users
+    render json: @users.to_json(only: [:email, :name], methods: :odd_name)
   end
 
   # GET /users/1
   def show
-    render json: @user
+    render json: @user.to_json(only: [:email, :name], methods: :odd_name)
   end
 
   # POST /users
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      render json: @user
+      render json: @user.to_json(only: [:email, :name], methods: :odd_name)
     else
       render json: @user.errors, status: :unprocessable_entity
     end
