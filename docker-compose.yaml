@@ -1,0 +1,13 @@
+version: '3'
+services: 
+  web:
+    build: .
+    volumes: 
+      - .:/app:delegated
+      - gems:/usr/local/bundle
+    working_dir: /app
+    ports: 
+      - 3000:3000
+
+volumes: 
+  gems:
